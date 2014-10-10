@@ -13,7 +13,7 @@ void main() {\
   gl_Position = vec4(position,0.0,1.0);\
 }',
   frag: '\
-precision mediump float;\n\
+precision highp float;\n\
 #pragma glslify: frob = require(glsl-frobenius)\n\
 #pragma glslify: transpose = require(../index.glsl)\n\
 uniform float m0,t0;\
@@ -21,10 +21,10 @@ uniform mat2  m1,t1;\
 uniform mat3  m2,t2;\
 uniform mat4  m3,t3;\
 void main() {\
-  gl_FragColor = 100.0*vec4(
-    frob(transpose(m0)-t0), 
-    frob(transpose(m1)-t1),
-    frob(transpose(m2)-t2),
+  gl_FragColor = 100.0 * vec4(\
+    frob(transpose(m0)-t0),\
+    frob(transpose(m1)-t1),\
+    frob(transpose(m2)-t2),\
     frob(transpose(m3)-t3));\
 }',
   inline: true
@@ -35,8 +35,8 @@ function runTest(m0, m1, m2, m3) {
   shader.uniforms = {
     t0: m0,
     t1: [m1[0], m1[2], m1[1], m1[3]],
-    t2: transpose3(m2, m2),
-    t3: transpose4(m3, m3),
+    t2: transpose3(new Array(9), m2),
+    t3: transpose4(new Array(16), m3),
     m0: m0,
     m1: m1,
     m2: m2,
